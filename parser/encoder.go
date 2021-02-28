@@ -1,9 +1,9 @@
 package parser
 
-import (
-	"github.com/360EntSecGroup-Skylar/excelize"
+import (	
 	"strconv"
-	"log"
+	"github.com/360EntSecGroup-Skylar/excelize"
+	//"log"
 	//"net/http"
 	//"io/ioutil"
 	//"fmt"
@@ -22,7 +22,7 @@ func (f *File) SaveAs(name string, opt ...excelize.Options) error {
 	return f.file.SaveAs(name, opt...)
 }
 
-func main() {
+func Create_xls() *excelize.File {
 	data := parseMainPage()
 	data = parsePages(data)
 	/*for _, elem := range data {
@@ -45,7 +45,5 @@ func main() {
 		file.setValue("E" + strconv.Itoa(i+2), val.PhoneNumber)
 	}
 
-	if err := file.SaveAs("Book1.xlsx"); err != nil {
-        log.Panic(err)
-	}
+	return f
 }

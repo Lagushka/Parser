@@ -7,7 +7,7 @@ import (
 	"net/http"
 	"os"
 	"golang.org/x/net/html"
-	"strconv"
+	//"strconv"
 	"io"
 	"strings"
 	// "bytes"
@@ -343,7 +343,7 @@ func parseProductPage(filename string, elem tData) tData {
 
 	log.Printf("%s %s", s, id)
 
-	s = phoneRequest(s, id)
+	//s = phoneRequest(s, id)
 
 	elem.PhoneNumber = s
 

@@ -1,9 +1,11 @@
 package main
 
 import (
-	"./parser"
+	"./bot"
+	//"log"
 )
 
 func main() {
-	parser.Create_xls()
+
+	tgbot.Work()
 }
