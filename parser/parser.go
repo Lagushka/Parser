@@ -1,4 +1,4 @@
-package main
+package parser
 
 import (
 	"fmt"
@@ -191,12 +191,6 @@ func ParsePage(filename string) []tData {
 		buf.Price = currentPrice[i]
 		buf.Ref = currentRef[i]
 		data = append(data, buf) 
-	}
-
-	createFolder("pictures/")
-	
-	for a, url := range data {
-		DownloadFile("pictures/pic" + strconv.Itoa(a) + ".png", url.Img)
 	}
 
 	return data
