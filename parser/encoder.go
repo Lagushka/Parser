@@ -11,25 +11,21 @@ import (
 )
 
 type File struct {
-	file		*excelize.File 
+	*excelize.File 
 }
 
 func (f *File) setValue(cell string, name string) {
-	f.file.SetCellValue("Sheet1", cell, name)
-}
-
-func (f *File) SaveAs(name string, opt ...excelize.Options) error {
-	return f.file.SaveAs(name, opt...)
+	f.SetCellValue("Sheet1", cell, name)
 }
 
 func Create_xls() *excelize.File {
 	data := parseMainPage()
-	data = parsePages(data)
+	//data = parsePages(data)
 	/*for _, elem := range data {
 		log.Printf("%s\n", elem.PhoneNumber)
 	}*/
 	f := excelize.NewFile()
-	file := File{ file: f }
+	file := File{ f }
 
 	file.setValue("A1", "Name")
 	file.setValue("B1", "Price")

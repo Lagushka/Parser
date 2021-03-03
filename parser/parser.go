@@ -8,7 +8,6 @@ import (
 	"os"
 	"golang.org/x/net/html"
 	//"strconv"
-	"io"
 	"strings"
 	// "bytes"
 )
@@ -72,26 +71,7 @@ func makeRequest(url string) {
 	fmt.Fprint(file, string(b))
 }
 
-func DownloadFile(path string, url string) {
-	resp, err := http.Get(url)
-	if err != nil {
-		log.Panic(err)
-	}
-	defer resp.Body.Close()
-
-	file, err := os.Create(path)
-	if err != nil {
-		log.Panic(err)
-	}
-	defer file.Close()
-
-	_, err = io.Copy(file, resp.Body)
-	if err != nil {
-		log.Panic(err)
-	}
-}
-
-func Open_Parse(filename string) *html.Node {
+func openParse(filename string) *html.Node {
 	file, err := os.Open(filename)
 	if err != nil {
 		log.Panic(err)
@@ -105,8 +85,8 @@ func Open_Parse(filename string) *html.Node {
 	return doc
 }
 
-func ParsePage(filename string) []tData {
-	doc := Open_Parse(filename)
+func parsePage(filename string) []tData {
+	doc := openParse(filename)
 
 	var data []tData
 	var currentPrice, currentImg, currentName, currentRef []string
@@ -200,13 +180,13 @@ func ParsePage(filename string) []tData {
 func parseMainPage() []tData {
 	log.Printf("Parsing main page: begun")
 	makeRequest("https://www.olx.kz/dom-i-sad/karaganda/")
-	data := ParsePage("site.html")
+	data := parsePage("site.html")
 	log.Printf("Parsing main page: completed")
 	return data
 }
 
 func parseProductPage(filename string, elem tData) tData {
-	doc := Open_Parse(
+	doc := openParse(
 		filename)
 
 	var s string

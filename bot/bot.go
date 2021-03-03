@@ -2,8 +2,10 @@ package tgbot
 
 import (
 	"github.com/Syfaro/telegram-bot-api"
+	
 	"log"
-	//"../parser"
+	"../parser"
+	//"io/ioutil"
 )
 
 func Work() {
@@ -19,19 +21,18 @@ func Work() {
 	u := tgbotapi.NewUpdate(0)
 	u.Timeout = 60
 
-	//file := parser.Create_xls()
-
+	file := parser.Create_xls()
+	ff := parser.File{file}
+	ff.SaveAs("data.xlsx")
 	updates, err := bot.GetUpdatesChan(u)
 
 	for update := range updates {
-		s := update.Message.Command()
-		log.Printf(s)
-
-		if s == "send" {
+		if update.Message.Text == "/send" {
 			//msg := tgbotapi.NewMessage(update.Message.Chat.ID, "shalom")
 			//bot.Send(msg)
-			responce := tgbotapi.NewDocumentUpload(update.Message.Chat.ID, "../tree.html")
-			bot.Send(responce)
+			responce := tgbotapi.NewDocumentUpload(update.Message.Chat.ID, "data.xlsx")
+			_, err := bot.Send(responce)
+			log.Print(err)
 		}
 	}
 }
