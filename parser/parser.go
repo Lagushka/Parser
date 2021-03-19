@@ -89,7 +89,7 @@ func parsePage(filename string) []tData {
 	doc := openParse(filename)
 
 	var data []tData
-	var currentPrice, currentImg, currentName, currentRef []string
+	var currentPrice, currentImg, currentName, currentRef, currentPlace []string
 	var collect func(*html.Node)
 	collect = func(node *html.Node) {
 		if node == nil {
@@ -142,6 +142,44 @@ func parsePage(filename string) []tData {
 			}
 		}
 
+		if node.Type == html.ElementNode && node.Data == "p" {
+			for _, att := range node.Attr {
+				if att.Key == "class" && att.Val == "lheight16" {
+					node = node.FirstChild
+					if node == nil {
+						break
+					}
+
+					node = node.NextSibling
+					if node == nil {
+						break
+					}
+
+					node = node.FirstChild
+					if node == nil {
+						break
+					}
+
+					node = node.NextSibling
+					if node == nil {
+						break
+					}
+
+					node = node.FirstChild
+					if node == nil {
+						break
+					}
+
+					node = node.NextSibling
+					if node == nil {
+						break
+					}
+
+					currentPlace = append(currentPlace, node.Data)
+				}
+			}
+		}
+
 
 		if node.Type == html.ElementNode && node.Data == "img" {
 			var flag bool = false
@@ -170,6 +208,7 @@ func parsePage(filename string) []tData {
 		buf.Name = currentName[i]
 		buf.Price = currentPrice[i]
 		buf.Ref = currentRef[i]
+		buf.Place = currentPlace[i]
 		data = append(data, buf) 
 	}
 
@@ -229,7 +268,7 @@ func parseProductPage(filename string, elem tData) tData {
 			}
 		}
 
-		if node.Type == html.ElementNode && node.Data == "span" {
+		/*if node.Type == html.ElementNode && node.Data == "span" {
 			for _, attr := range node.Attr {
 				if attr.Key == "span" && attr.Val == "link lheight22 cpointer locationbox__show-desc" {
 					log.Print("fgr")
@@ -258,7 +297,7 @@ func parseProductPage(filename string, elem tData) tData {
 					log.Printf(node.Data, "\n")
 				}
 			}
-		}
+		}*/
 
 		collect(node.NextSibling)
 		collect(node.FirstChild)
